@@ -46,6 +46,7 @@ public class SimmulatedAnnealing {
     }
 
     public int[] simulatedAnnealing(int numberOfCities) {
+        long startTime = System.nanoTime();
         int[] currentSolution = generateInitialSolution(numberOfCities);
         int[] bestSolution = currentSolution.clone();
 
@@ -73,6 +74,10 @@ public class SimmulatedAnnealing {
 
             temperature *= 1 - coolingRate; // Cool down
         }
+
+        long endTime = System.nanoTime();
+        long duration = (endTime - startTime)/1000; // in microseconds
+        System.out.println("Execution time: " + duration + "µs");
         return bestSolution;
     }
 
