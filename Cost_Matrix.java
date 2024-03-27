@@ -25,10 +25,6 @@ public class Cost_Matrix {
         scanner.close();
     }
 
-    public int getCost(int i, int j) {
-        return matrix[i][j];
-    }
-
     public String toString(){
         String result = "";
         for (int i = 0; i < this.rows; i++) {
@@ -39,6 +35,15 @@ public class Cost_Matrix {
         }
         return result;
     }
-    // Other methods as needed...
+
+    public int getCost(int i, int j) {
+        if (i < 0 || i >= this.rows || j < 0 || j >= this.cols) {
+            throw new IllegalArgumentException("Invalid indices");
+        }
+        return matrix[i][j];
+    }
+    public int getRows() {
+        return rows;
+    }
 }
 
