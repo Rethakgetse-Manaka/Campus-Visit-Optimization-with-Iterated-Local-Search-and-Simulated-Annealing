@@ -21,13 +21,27 @@ public class IterativeSearch {
     }
 
     public Solution localSearch(Solution solution) {
-        // Implement local search algorithm
-        // E.g., swap two consecutive campuses to improve the solution
+        // Implement local search by swapping two campuses if it improves the solution
+        boolean improved = true;
+        while (improved) {
+            improved = false;
+            for (int i = 0; i < solution.route.size(); i++) {
+                for (int j = i + 1; j < solution.route.size(); j++) {
+                    Solution candidate = new Solution(new ArrayList<>(solution.route));
+                    candidate.swap(i, j);
+                    double candidateDistance = candidate.calculateTotalDistance(costMatrix);
+                    double currentDistance = solution.calculateTotalDistance(costMatrix);
+                    if (candidateDistance < currentDistance) {
+                        solution = candidate;
+                        improved = true;
+                    }
+                }
+            }
+        }
         return solution;
     }
 
     public void perturbation(Solution solution) {
-        // Implement perturbation by randomly swapping two campuses
         Random random = new Random();
         int i = random.nextInt(solution.route.size());
         int j = random.nextInt(solution.route.size());
