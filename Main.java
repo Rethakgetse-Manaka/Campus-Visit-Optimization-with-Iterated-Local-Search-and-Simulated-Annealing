@@ -19,8 +19,11 @@ public class Main {
         int iterations = 1000;
 
         IterativeSearch ILS = new IterativeSearch(campuses, costMatrix, iterations);
+        long startTime = System.nanoTime();
         Solution bestSolution = ILS.run();
-
+        long endTime = System.nanoTime();
+        long duration = (endTime - startTime)/1000; // in microseconds
+        System.out.println("Execution time: " + duration + " µs");
         // Print the best solution
         System.out.println("Best Route:");
         for (Campus campus : bestSolution.route) {
@@ -28,7 +31,7 @@ public class Main {
         }
         System.out.println("Total Distance: " + bestSolution.calculateTotalDistance(costMatrix));
 
-        int numIterations = 1000;
+        int numIterations = 100;
         double avgObjFuncValue = ILS.averageObjectiveFunctionValue(numIterations);
         System.out.println("Average Objective Function Value: " + avgObjFuncValue);
 
