@@ -66,4 +66,17 @@ public class IterativeSearch {
 
         return bestSolution;
     }
+    
+    public double averageObjectiveFunctionValue(int numberOfRuns) {
+        double totalObjectiveFunctionValue = 0;
+
+        for (int i = 0; i < numberOfRuns; i++) {
+            Solution solution = run();
+            double objectiveFunctionValue = solution.calculateTotalDistance(costMatrix);
+            totalObjectiveFunctionValue += objectiveFunctionValue;
+        }
+
+        double averageObjectiveFunctionValue = totalObjectiveFunctionValue / numberOfRuns;
+        return averageObjectiveFunctionValue;
+    }
 }

@@ -28,6 +28,10 @@ public class Main {
         }
         System.out.println("Total Distance: " + bestSolution.calculateTotalDistance(costMatrix));
 
+        int numIterations = 1000;
+        double avgObjFuncValue = ILS.averageObjectiveFunctionValue(numIterations);
+        System.out.println("Average Objective Function Value: " + avgObjFuncValue);
+
 
     }
 }
