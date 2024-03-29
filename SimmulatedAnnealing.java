@@ -46,7 +46,6 @@ public class SimmulatedAnnealing {
     }
 
     public int[] simulatedAnnealing(int numberOfCities) {
-        long startTime = System.nanoTime();
         int[] currentSolution = generateInitialSolution(numberOfCities);
         int[] bestSolution = currentSolution.clone();
 
@@ -75,9 +74,6 @@ public class SimmulatedAnnealing {
             temperature *= 1 - coolingRate; // Cool down
         }
 
-        long endTime = System.nanoTime();
-        long duration = (endTime - startTime)/1000; // in microseconds
-        System.out.println("Execution time: " + duration + "µs");
         return bestSolution;
     }
 
@@ -86,5 +82,18 @@ public class SimmulatedAnnealing {
             System.out.print(city + " ");
         }
         System.out.println();
+    }
+
+    public double averageObjectiveFunctionValue(int numberOfCities, int numberOfRuns) {
+        double totalObjectiveFunctionValue = 0;
+    
+        for (int i = 0; i < numberOfRuns; i++) {
+            int[] solution = simulatedAnnealing(numberOfCities);
+            int objectiveFunctionValue = calculateTotalDistance(solution);
+            totalObjectiveFunctionValue += objectiveFunctionValue;
+        }
+    
+        double averageObjectiveFunctionValue = totalObjectiveFunctionValue / numberOfRuns;
+        return averageObjectiveFunctionValue;
     }
 }
