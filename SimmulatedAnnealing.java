@@ -50,8 +50,10 @@ public class SimmulatedAnnealing {
         int[] bestSolution = currentSolution.clone();
         int iterations = 0;
         double temperature = 1000; // Initial temperature
-        // double coolingRate = 0.006881; // Cooling rate
-        double coolingRate = 0.5; // Cooling rate
+        double coolingRate = 0.006881; // Cooling rate //1000 iterations
+        // double coolingRate = 0.5; // Cooling rate //10 iterations
+        // double coolingRate = 0.067; // Cooling rate //100 iterations
+        // double coolingRate = 0.9997; // Cooling rate //1 iteration
 
         while (temperature > 1) {
             int[] newSolution = currentSolution.clone();
