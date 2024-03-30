@@ -20,6 +20,6 @@ public class Main {
         System.out.println("Best tour found:");
         sa.printTour(bestTour);
         System.out.println("Total distance: " + sa.calculateTotalDistance(bestTour));
-        System.out.println("Average Objective Function Value: " + sa.averageObjectiveFunctionValue(numberOfCities, 100));
+        System.out.println("Average Objective Function Value: " + sa.averageObjectiveFunctionValue(numberOfCities, 3));
     }
 }

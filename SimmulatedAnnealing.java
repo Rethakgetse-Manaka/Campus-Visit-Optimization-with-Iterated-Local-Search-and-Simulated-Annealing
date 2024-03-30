@@ -48,9 +48,10 @@ public class SimmulatedAnnealing {
     public int[] simulatedAnnealing(int numberOfCities) {
         int[] currentSolution = generateInitialSolution(numberOfCities);
         int[] bestSolution = currentSolution.clone();
-
+        int iterations = 0;
         double temperature = 1000; // Initial temperature
-        double coolingRate = 0.003; // Cooling rate
+        // double coolingRate = 0.006881; // Cooling rate
+        double coolingRate = 0.5; // Cooling rate
 
         while (temperature > 1) {
             int[] newSolution = currentSolution.clone();
@@ -72,8 +73,9 @@ public class SimmulatedAnnealing {
             }
 
             temperature *= 1 - coolingRate; // Cool down
+            iterations++;
         }
-
+        System.out.println(iterations);
         return bestSolution;
     }
 
@@ -86,13 +88,12 @@ public class SimmulatedAnnealing {
 
     public double averageObjectiveFunctionValue(int numberOfCities, int numberOfRuns) {
         double totalObjectiveFunctionValue = 0;
-    
         for (int i = 0; i < numberOfRuns; i++) {
             int[] solution = simulatedAnnealing(numberOfCities);
             int objectiveFunctionValue = calculateTotalDistance(solution);
             totalObjectiveFunctionValue += objectiveFunctionValue;
         }
-    
+        if(numberOfRuns == 0) return 0; // Avoid division by zero (if no runs are made
         double averageObjectiveFunctionValue = totalObjectiveFunctionValue / numberOfRuns;
         return averageObjectiveFunctionValue;
     }
