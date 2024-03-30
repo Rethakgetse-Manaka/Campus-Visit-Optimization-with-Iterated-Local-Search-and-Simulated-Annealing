@@ -17,28 +17,32 @@ public class IterativeSearch {
     public Solution generateInitialSolution() {
         List<Campus> initialRoute = new ArrayList<>(campuses);
         Collections.shuffle(initialRoute);
-        return new Solution(initialRoute);
+        return new Solution(initialRoute,campuses);
     }
 
     public Solution localSearch(Solution solution) {
-        // Implement local search by swapping two campuses if it improves the solution
+        Solution currentSolution = solution;
+        double currentDistance = currentSolution.calculateTotalDistance(costMatrix);
         boolean improved = true;
         while (improved) {
             improved = false;
-            for (int i = 0; i < solution.route.size(); i++) {
-                for (int j = i + 1; j < solution.route.size(); j++) {
-                    Solution candidate = new Solution(new ArrayList<>(solution.route));
-                    candidate.swap(i, j);
-                    double candidateDistance = candidate.calculateTotalDistance(costMatrix);
-                    double currentDistance = solution.calculateTotalDistance(costMatrix);
-                    if (candidateDistance < currentDistance) {
-                        solution = candidate;
+    
+            for (int i = 0; i < currentSolution.route.size(); i++) {
+                for (int j = i + 1; j < currentSolution.route.size(); j++) {
+                    Solution neighborSolution = new Solution(new ArrayList<>(currentSolution.route),campuses);
+                    neighborSolution.swap(i, j);
+                    double neighborDistance = neighborSolution.calculateTotalDistance(costMatrix);
+    
+                    if (neighborDistance < currentDistance) {
+                        currentSolution = neighborSolution;
+                        currentDistance = neighborDistance;
                         improved = true;
                     }
                 }
             }
         }
-        return solution;
+    
+        return currentSolution;
     }
 
     public void perturbation(Solution solution) {
@@ -49,18 +53,18 @@ public class IterativeSearch {
     }
 
     public Solution run() {
-        Solution bestSolution = generateInitialSolution();
-        double bestDistance = bestSolution.calculateTotalDistance(costMatrix);
+        Solution bestSolution = generateInitialSolution(); //Generate a random initial solution
+        double bestSolutionTotalDistance = bestSolution.calculateTotalDistance(costMatrix);
 
-        for (int i = 0; i < iterations; i++) {
-            Solution candidate = new Solution(new ArrayList<>(bestSolution.route));
-            perturbation(candidate);
-            candidate = localSearch(candidate);
-            double candidateDistance = candidate.calculateTotalDistance(costMatrix);
+        for(int i = 0; i < iterations; i++){
+            Solution candidate = new Solution(new ArrayList<>(bestSolution.route),campuses);
+            candidate = localSearch(candidate); //Apply local search and obtain a local optimum
+            perturbation(candidate); // Pertub the local optimum 
+            double newSolutionTotalDistance = candidate.calculateTotalDistance(costMatrix);
 
-            if (candidateDistance < bestDistance) {
+            if(newSolutionTotalDistance < bestSolutionTotalDistance){ // If the new solution is better than the best solution, update the best solution
                 bestSolution = candidate;
-                bestDistance = candidateDistance;
+                bestSolutionTotalDistance = newSolutionTotalDistance;
             }
         }
 
@@ -76,7 +80,7 @@ public class IterativeSearch {
             totalObjectiveFunctionValue += objectiveFunctionValue;
         }
 
-        double averageObjectiveFunctionValue = totalObjectiveFunctionValue / numberOfRuns;
-        return averageObjectiveFunctionValue;
+    
+        return totalObjectiveFunctionValue / numberOfRuns;
     }
 }

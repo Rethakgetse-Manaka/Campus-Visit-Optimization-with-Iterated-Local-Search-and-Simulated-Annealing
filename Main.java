@@ -16,7 +16,7 @@ public class Main {
             campuses.add(new Campus("Campus " + i));
         }
 
-        int iterations = 1000;
+        int iterations = 10;
 
         IterativeSearch ILS = new IterativeSearch(campuses, costMatrix, iterations);
         long startTime = System.nanoTime();
@@ -31,8 +31,7 @@ public class Main {
         }
         System.out.println("Total Distance: " + bestSolution.calculateTotalDistance(costMatrix));
 
-        int numIterations = 100;
-        double avgObjFuncValue = ILS.averageObjectiveFunctionValue(numIterations);
+        double avgObjFuncValue = ILS.averageObjectiveFunctionValue(iterations);
         System.out.println("Average Objective Function Value: " + avgObjFuncValue);
 
 

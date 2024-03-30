@@ -3,26 +3,27 @@ import java.util.List;
 
 public class Solution {
     List<Campus> route;
-
-    public Solution(List<Campus> route) {
+    List<Campus> campuses;
+    public Solution(List<Campus> route, List<Campus>campuses) {
         this.route = route;
+        this.campuses = campuses;
     }
 
     public double calculateTotalDistance(Cost_Matrix costMatrix) {
-        double totalDistance = 0;
+        double totalDistance = 0.0;
+
         for (int i = 0; i < route.size() - 1; i++) {
-            Campus currentCampus = route.get(i);
-            Campus nextCampus = route.get(i + 1);
-            int currentCampusIndex = Integer.parseInt(currentCampus.name.substring(7)) - 1;
-            int nextCampusIndex = Integer.parseInt(nextCampus.name.substring(7)) - 1;
-            totalDistance += costMatrix.getCost(currentCampusIndex, nextCampusIndex);
+            int currentCampusIndex = campuses.indexOf(route.get(i));
+            int nextCampusIndex = campuses.indexOf(route.get(i + 1));
+            double distance = costMatrix.getCost(currentCampusIndex, nextCampusIndex);
+            totalDistance += distance;
         }
-        // Add distance from the last campus back to the first one
-        Campus firstCampus = route.get(0);
-        Campus lastCampus = route.get(route.size() - 1);
-        int firstCampusIndex = Integer.parseInt(firstCampus.name.substring(7)) - 1;
-        int lastCampusIndex = Integer.parseInt(lastCampus.name.substring(7)) - 1;
+
+        // Add distance from last campus back to the starting campus (assuming TSP)
+        int lastCampusIndex = campuses.indexOf(route.get(route.size() - 1));
+        int firstCampusIndex = campuses.indexOf(route.get(0));
         totalDistance += costMatrix.getCost(lastCampusIndex, firstCampusIndex);
+
         return totalDistance;
     }
 
