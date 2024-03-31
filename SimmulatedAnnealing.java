@@ -75,7 +75,7 @@ public class SimmulatedAnnealing {
             }
 
             temperature *= 1 - coolingRate; // Cool down
-            iterations++;
+            // iterations++;
         }
         System.out.println(iterations);
         return bestSolution;
